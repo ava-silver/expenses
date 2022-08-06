@@ -1,0 +1,37 @@
+#!/usr/bin/env python
+from sys import argv, stdin
+from typing import Dict, List
+
+
+def get_lines() -> List[str]:
+    source = open(argv[1], "r") if len(argv) > 1 else stdin
+    return source.read().splitlines()
+
+
+def get_sections(lines: List[str]) -> Dict[str, float]:
+    sections: Dict[str, float] = {}
+    cur_section: str = ""
+    for line in lines:
+        if not line:
+            continue
+        if line.rstrip().endswith(":"):
+            cur_section = line.rsplit(":", maxsplit=1)[0]
+            sections[cur_section] = 0
+        else:
+            sections[cur_section] += float(line)
+    return sections
+
+
+def main():
+    lines: List[str] = get_lines()
+    sections: Dict[str, float] = get_sections(lines)
+
+    output_lines = [
+        f"{header}: {round(value, 2)}" for header, value in sections.items()
+    ]
+    output_lines.append(f"grand total: {round(sum(sections.values()), 2)}")
+    print(*output_lines, sep="\n")
+
+
+if __name__ == "__main__":
+    main()

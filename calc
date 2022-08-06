@@ -1,0 +1,11 @@
+#!/usr/bin/env python
+
+total: float = 0.0
+
+try:
+    while line := input():
+        total += float(line)
+except (EOFError, KeyboardInterrupt):
+    pass
+
+print(f'total: {round(total, 2)}')
